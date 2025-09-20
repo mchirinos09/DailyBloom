@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Bloom</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: #fffafc;
+      margin: 0;
+      padding: 0;
+      color: #444;
+      text-align: center;
+    }
+
+    header {
+      background: #f8e1ec;
+      padding: 15px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #a64c78;
+      border-bottom: 2px solid #f2cde0;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      background: #fce9f1;
+      border-bottom: 2px solid #f2cde0;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #a64c78;
+      border: none;
+      background: none;
+      font-size: 1rem;
+    }
+
+    .tab.active {
+      background: #f8e1ec;
+      border-bottom: 3px solid #a64c78;
+    }
+
+    .section {
+      display: none;
+      padding: 20px;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    h2 {
+      color: #a64c78;
+      margin-bottom: 15px;
+    }
+
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button {
+      background: #f8e1ec;
+      border: 1px solid #f2cde0;
+      padding: 10px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: #a64c78;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #f2cde0;
+    }
+
+    .result-card {
+      margin-top: 20px;
+      padding: 15px;
+      background: #fff;
+      border: 2px solid #f2cde0;
+      border-radius: 12px;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      font-style: italic;
+      color: #444;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <header>🌸 Daily Bloom 🌸</header>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showSection('gratitude')">Gratitude</button>
+    <button class="tab" onclick="showSection('intentions')">Intentions</button>
+    <button class="tab" onclick="showSection('affirmations')">Affirmations</button>
+  </div>
+
+  <!-- Gratitude Section -->
+  <div id="gratitude" class="section active">
+    <h2>Gratitude</h2>
+    <div class="button-container">
+      <button onclick="showRandom('gratitude')">🌸 Random</button>
+      <button onclick="showCategory('gratitude', 0)">Family</button>
+      <button onclick="showCategory('gratitude', 1)">Health</button>
+      <button onclick="showCategory('gratitude', 2)">Career</button>
+      <button onclick="showCategory('gratitude', 3)">Nature</button>
+      <button onclick="showCategory('gratitude', 4)">Personal Growth</button>
+    </div>
+    <div id="gratitude-result" class="result-card"></div>
+  </div>
+
+  <!-- Intentions Section -->
+  <div id="intentions" class="section">
+    <h2>Intentions</h2>
+    <div class="button-container">
+      <button onclick="showRandom('intentions')">🌸 Random</button>
+      <button onclick="showCategory('intentions', 0)">Mindfulness</button>
+      <button onclick="showCategory('intentions', 1)">Productivity</button>
+      <button onclick="showCategory('intentions', 2)">Wellness</button>
+      <button onclick="showCategory('intentions', 3)">Relationships</button>
+      <button onclick="showCategory('intentions', 4)">Self-Care</button>
+    </div>
+    <div id="intentions-result" class="result-card"></div>
+  </div>
+
+  <!-- Affirmations Section -->
+  <div id="affirmations" class="section">
+    <h2>Affirmations</h2>
+    <div class="button-container">
+      <button onclick="showRandom('affirmations')">🌸 Random</button>
+      <button onclick="showCategory('affirmations', 0)">Confidence</button>
+      <button onclick="showCategory('affirmations', 1)">Calm</button>
+      <button onclick="showCategory('affirmations', 2)">Success</button>
+      <button onclick="showCategory('affirmations', 3)">Love</button>
+      <button onclick="showCategory('affirmations', 4)">Self-Worth</button>
+    </div>
+    <div id="affirmations-result" class="result-card"></div>
+  </div>
+
+  <script>
+    // Data
+    const data = {
+      gratitude: [
+        ["I am grateful for my supportive family.", "I am grateful for family traditions.", "I am grateful for unconditional love.", "I am grateful for my family’s health.", "I am grateful for laughter with loved ones.", "I am grateful for family meals.", "I am grateful for childhood memories.", "I am grateful for family guidance.", "I am grateful for the safety of home.", "I am grateful for shared family moments."],
+        ["I am grateful for my strong body.", "I am grateful for the ability to move.", "I am grateful for restful sleep.", "I am grateful for access to clean water.", "I am grateful for nourishing food.", "I am grateful for fresh air.", "I am grateful for my energy today.", "I am grateful for healing.", "I am grateful for my mental clarity.", "I am grateful for my resilience."],
+        ["I am grateful for meaningful work.", "I am grateful for learning new skills.", "I am grateful for inspiring colleagues.", "I am grateful for opportunities to grow.", "I am grateful for financial stability.", "I am grateful for creativity in my work.", "I am grateful for progress toward goals.", "I am grateful for my determination.", "I am grateful for mentors.", "I am grateful for my career path."],
+        ["I am grateful for sunshine.", "I am grateful for the sound of birds.", "I am grateful for the ocean breeze.", "I am grateful for blooming flowers.", "I am grateful for trees that give shade.", "I am grateful for rain that refreshes.", "I am grateful for starlit skies.", "I am grateful for mountains and rivers.", "I am grateful for the changing seasons.", "I am grateful for the beauty of the earth."],
+        ["I am grateful for my personal growth.", "I am grateful for lessons learned.", "I am grateful for second chances.", "I am grateful for my inner strength.", "I am grateful for self-awareness.", "I am grateful for my courage to change.", "I am grateful for wisdom gained.", "I am grateful for clarity of purpose.", "I am grateful for learning patience.", "I am grateful for my persistence."]
+      ],
+      intentions: [
+        ["Today, I will breathe deeply and stay present.", "Today, I will notice small joys.", "Today, I will listen without judgment.", "Today, I will focus on one task at a time.", "Today, I will let go of distractions.", "Today, I will honor silence.", "Today, I will reflect with gratitude.", "Today, I will move slowly with purpose.", "Today, I will appreciate my surroundings.", "Today, I will welcome calm energy."],
+        ["Today, I will finish one important task.", "Today, I will use my time wisely.", "Today, I will focus on progress, not perfection.", "Today, I will prioritize what matters most.", "Today, I will break goals into small steps.", "Today, I will avoid procrastination.", "Today, I will celebrate small wins.", "Today, I will plan intentionally.", "Today, I will create with focus.", "Today, I will stay committed to my goals."],
+        ["Today, I will drink water and nourish my body.", "Today, I will move with joy.", "Today, I will stretch and breathe.", "Today, I will rest when I need it.", "Today, I will care for my body with love.", "Today, I will choose balance.", "Today, I will honor my energy.", "Today, I will take a mindful walk.", "Today, I will smile at myself in the mirror.", "Today, I will prioritize my wellness."],
+        ["Today, I will express kindness.", "Today, I will call someone I care about.", "Today, I will listen with love.", "Today, I will forgive with an open heart.", "Today, I will spread joy.", "Today, I will make time for connection.", "Today, I will nurture my relationships.", "Today, I will speak kindly.", "Today, I will show compassion.", "Today, I will practice patience with others."],
+        ["Today, I will take time for myself.", "Today, I will say no when needed.", "Today, I will rest without guilt.", "Today, I will read something uplifting.", "Today, I will practice self-kindness.", "Today, I will take a calming bath.", "Today, I will enjoy quiet moments.", "Today, I will write in my journal.", "Today, I will protect my peace.", "Today, I will treat myself gently."]
+      ],
+      affirmations: [
+        ["I believe in myself.", "I radiate confidence.", "I trust my journey.", "I embrace challenges with courage.", "I am proud of who I am.", "I am enough as I am.", "I can achieve my goals.", "I walk with confidence.", "I trust my decisions.", "I am capable and strong."],
+        ["I am calm and centered.", "I release what I cannot control.", "I choose peace over worry.", "I am safe in this moment.", "I breathe deeply and let go.", "I welcome serenity into my day.", "I flow with life easily.", "I am grounded and steady.", "I find peace within myself.", "I let go of stress."],
+        ["I attract success naturally.", "I take steps toward my dreams.", "I am open to opportunities.", "I am worthy of abundance.", "I am focused and disciplined.", "I celebrate my progress.", "I attract positive results.", "I rise to challenges.", "I achieve what I set my mind to.", "I am a magnet for success."],
+        ["I give and receive love freely.", "I am surrounded by love.", "I attract kind and loving people.", "I am worthy of love.", "I love deeply and openly.", "Love flows to me easily.", "My heart is open to love.", "I nurture healthy connections.", "I spread love wherever I go.", "I am grateful for love in my life."],
+        ["I value myself deeply.", "I am worthy of good things.", "I respect and honor myself.", "I believe in my worth.", "I treat myself with kindness.", "I deserve joy and peace.", "I trust myself fully.", "I am proud of myself.", "I accept myself unconditionally.", "I love and appreciate who I am."]
+      ]
+    };
+
+    // Switch tabs
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+      document.querySelector(`.tab[onclick*="${sectionId}"]`).classList.add('active');
+    }
+
+    // Show random result
+    function showRandom(section) {
+      const categories = data[section];
+      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+      const randomItem = randomCategory[Math.floor(Math.random() * randomCategory.length)];
+      document.getElementById(section + '-result').innerText = randomItem;
+    }
+
+    // Show category result
+    function showCategory(section, index) {
+      const item = data[section][index][Math.floor(Math.random() * data[section][index].length)];
+      document.getElementById(section + '-result').innerText = item;
+    }
+  </script>
+</body>
+</html>
